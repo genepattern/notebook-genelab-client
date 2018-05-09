@@ -4,7 +4,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
     const GSGLLoginWidgetTool = new NBToolManager.NBTool({
         origin: "+",
         id: "gsgl_Login",
-        name: "GeneLab_Login",
+        name: "NASA GeneLab Login",
         description: "Login to GeneLab to allow files to be up/downloaded.",
         load: function() {
 
@@ -19,7 +19,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
             cell.set_text("import GSGeneLab\nimport genepattern\n"
                    + "genepattern.GPUIBuilder(GSGeneLab.singleton.GeneLabLogin,\n\tparameters={"
                    + "'username': { 'type': 'String' }, 'password': { 'type': 'Password' }, 'output_var': { 'hide': 'True' } }"
-                   + ", function_import='gs.singleton.GeneLabLogin')")
+                   + ", function_import='GSGeneLab.singleton.GeneLabLogin')")
             // execute cell
             cell.execute()
 
@@ -32,7 +32,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
     const GSGLDownloadWidgetTool = new NBToolManager.NBTool({
         origin: "+",
         id: "gsgl_GetDownload",
-        name: "GetGeneLabFile",
+        name: "NASA GeneLab Download File",
         description: "Select a GeneLab file and have it downloaded to the notebook server. Make sure to do a GeneLab login first.",
         load: function() {
 
@@ -72,7 +72,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
             cell.set_text("import GSGeneLab\nimport genepattern\n"
                    + "genepattern.GPUIBuilder(GSGeneLab.singleton.downloadFile,\n\tparameters={"
                    + "'genelabUrl': { 'type': 'String', 'default': '"+ e.data.destination+"' }, 'localFileName': { 'type': 'String', 'default':'"+defaultName+"' }, 'output_var': { 'hide': 'True' } }"
-                   + ", function_import='gs.singleton.downloadFile')")
+                   + ", function_import='GSGeneLab.singleton.downloadFile')")
 
 
             // execute cell
