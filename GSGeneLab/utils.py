@@ -3,7 +3,9 @@
 
 from genomespaceclient import GenomeSpaceClient
 import genepattern
-import IPython.display
+import IPython.core.display as display
+from IPython.display import display_javascript
+
 from ipywidgets import widgets
 from traitlets import Unicode, Integer
 import nbtools
@@ -18,10 +20,22 @@ class GSGeneLabClient:
     # create the client which we need to have cache the user/pass
     def GeneLabLogin(self, username, password):
         self.myGeneLabClient = GenomeSpaceClient(username, password)
+        js = """var cellIdx = IPython.notebook.get_selected_index();
+            var cell =  IPython.notebook.get_cell(cellIdx+1);
+            cell.set_text(cell.get_text().replace(new RegExp('foo','g'),'< PasswordHidden >'));
+            // alert('Password is being hidden after use to remove it from the notebook for security reasons.');
+            cell.render();""".replace('foo', password)
+        jjss = display.Javascript(js)
+        display.display(jjss)
+
         return self.myGeneLabClient
 
     def downloadFile(self, genelabUrl, localFileName):
+
+        initial = display.HTML("<p>Downloading <a href='" + genelabUrl + "'>"+ genelabUrl+"</a> as " + localFileName+ "</p?")
+        display.display(initial);
         self.myGeneLabClient._download_file(genelabUrl, localFileName)
+        return display.HTML("<p>Done</p>")
 
 
 

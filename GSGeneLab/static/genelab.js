@@ -18,10 +18,11 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
             }
             cell.set_text("import GSGeneLab\nimport genepattern\n"
                    + "genepattern.GPUIBuilder(GSGeneLab.singleton.GeneLabLogin,\n\tparameters={"
-                   + "'username': { 'type': 'String' }, 'password': { 'type': 'Password' }, 'output_var': { 'hide': 'True' } }"
+                   + "'username': { 'type': 'String' }, 'password': { 'type': 'password' }, 'output_var': { 'hide': 'True' } }"
                    + ", function_import='GSGeneLab.singleton.GeneLabLogin')")
             // execute cell
-            cell.execute()
+            cell.execute();
+
 
             return cell;
         }
@@ -44,6 +45,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
                 cell = Jupyter.notebook.insert_cell_below();
                 Jupyter.notebook.select_next();
             }
+
             getFileUrlFromGeneLab(cell);
             // If this cell is not empty, insert a new cell and use that
             // Otherwise just use this cell
@@ -57,7 +59,7 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
 
 
 
-    function getFileUrlFromGeneLab(cell){
+    function getFileUrlFromGeneLab(downloadCell){
         var jsuiRoot = "https://genelab-data.ndc.nasa.gov/jsui";
         var gsUploadUrl = jsuiRoot +"/jsCDK/loadUrlToGenomespace.html?";
 
@@ -69,14 +71,14 @@ requirejs(["nbtools", "jquery"], function(NBToolManager, $) {
 
             var defaultName = glurl.substring(glurl.lastIndexOf("/") + 1);
 
-            cell.set_text("import GSGeneLab\nimport genepattern\n"
+            downloadCell.set_text("import GSGeneLab\nimport genepattern\n"
                    + "genepattern.GPUIBuilder(GSGeneLab.singleton.downloadFile,\n\tparameters={"
                    + "'genelabUrl': { 'type': 'String', 'default': '"+ e.data.destination+"' }, 'localFileName': { 'type': 'String', 'default':'"+defaultName+"' }, 'output_var': { 'hide': 'True' } }"
                    + ", function_import='GSGeneLab.singleton.downloadFile')")
 
 
             // execute cell
-            cell.execute()
+            downloadCell.execute()
         };
 
         var newWin = window.open(gsUploadUrl  + "getLocation=True&action=IMPORT&selectType=FILE", "GeneLab Import", "height=340px,width=550px");
